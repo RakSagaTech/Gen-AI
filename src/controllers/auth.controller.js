@@ -146,4 +146,41 @@ async function logoutUserController(req, res){
   }
 }
 
-module.exports = {registerUserController, loginUserController, logoutUserController}
+
+/**
+ * @name getMeController
+ * @desc get the current logged in user details
+ * @access Private
+ */
+async function getMeController(req, res){
+
+  try{
+    const userId = req.user.id 
+
+    const user = await userModel.findById(userId)
+    
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      })
+    }
+    
+
+  res.status(200).json({
+    message: "User details fetched successfully",
+    user:{
+      id: user._id,
+      username: user.username,
+      email: user.email
+    }
+  })
+  }catch(err){
+    console.error(err)
+    return res.status(500).json({
+      message: "Internal server error"
+    })
+  }
+
+}
+
+module.exports = {registerUserController, loginUserController, logoutUserController, getMeController}
