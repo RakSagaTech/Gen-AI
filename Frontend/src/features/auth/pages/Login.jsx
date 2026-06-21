@@ -12,7 +12,7 @@
                 type="text"
                 id="username"
                 name="username"
-                placeholder="Enter Username"
+                placeholder="Enter username"
               />
             </div>
             <div className="input-group">
@@ -21,7 +21,7 @@
                 type="password"
                 id="password"
                 name="password"
-                placeholder="Enter Password"
+                placeholder="Enter password"
               />
             </div>
             <button className="button primary-button">Submit</button>
