@@ -1,3 +1,4 @@
+  import {Link} from 'react-router'
   import '../auth.form.scss'
 
   const Login = () => {
@@ -28,13 +29,14 @@
               <label htmlFor="email">Email Address</label>
               <input 
                 type="email"
-                id="email "
+                id="email"
                 name="email"
                 placeholder="Enter email address"
               />
             </div>
             <button className="button primary-button">Register</button>
           </form>
+          <p>Already have an account? <Link to={"/login"}>Login</Link></p>
         </div>
       </main>
     )
