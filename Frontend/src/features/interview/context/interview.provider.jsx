@@ -4,8 +4,8 @@ import { InterviewContext } from "./interview.context";
 
 
 export const InterviewProvider = ({children}) =>{
-  const [report, setReport] = useState(null)
-  const [reports, setReports] = useState(null)
+  const [report, setReport] = useState("")
+  const [reports, setReports] = useState("")
   const [loading, setLoading] = useState(false)
 
   return (

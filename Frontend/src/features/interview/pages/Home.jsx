@@ -1,26 +1,30 @@
-import {useState, useRef} from 'react'
-import {useNavigate} from 'react-router'
-import {useInterview} from '../hook/useInterview'
+import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router'
+import { useInterview } from '../hook/useInterview.js'
 import "../style/home.scss"
 
 
 const Home = () => {
 
-    const {loading, generateReport} = useInterview()
-    const [jobDescription, setJobDescription] = useState()
-    const [selfDescription, setSelfDescription] = useState()
+    const { loading, generateReport, reports } = useInterview()
+    const [ jobDescription, setJobDescription ] = useState("")
+    const [ selfDescription, setSelfDescription ] = useState("")
     const resumeInputRef = useRef()
 
     const navigate = useNavigate()
 
-    const handleGenerateReport = async () =>{
-        const resumeFile = resumeInputRef.current.files[0]
-        const data = await generateReport({jobDescription, selfDescription, resumeFile})
+    const handleGenerateReport = async () => {
+        const resumeFile = resumeInputRef.current.files[ 0 ]
+        const data = await generateReport({ jobDescription, selfDescription, resumeFile })
         navigate(`/interview/${data._id}`)
     }
 
-    if(loading){
-        return (<main><h1>Loading....!</h1></main>)
+    if (loading) {
+        return (
+            <main className='loading-screen'>
+                <h1>Loading your interview plan...</h1>
+            </main>
+        )
     }
 
     return (
@@ -46,7 +50,7 @@ const Home = () => {
                             <span className='badge badge--required'>Required</span>
                         </div>
                         <textarea
-                            onChange={(e) => {setJobDescription(e.target.value)}}
+                            onChange={(e) => { setJobDescription(e.target.value) }}
                             className='panel__textarea'
                             placeholder={`Paste the full job description here...\ne.g. 'Senior Frontend Engineer at Google requires proficiency in React, TypeScript, and large-scale system design...'`}
                             maxLength={5000}
@@ -89,7 +93,7 @@ const Home = () => {
                         <div className='self-description'>
                             <label className='section-label' htmlFor='selfDescription'>Quick Self-Description</label>
                             <textarea
-                                onChange={(e) => {setSelfDescription(e.target.value)}}
+                                onChange={(e) => { setSelfDescription(e.target.value) }}
                                 id='selfDescription'
                                 name='selfDescription'
                                 className='panel__textarea panel__textarea--short'
@@ -119,6 +123,21 @@ const Home = () => {
                 </div>
             </div>
 
+            {/* Recent Reports List */}
+            {reports.length > 0 && (
+                <section className='recent-reports'>
+                    <h2>My Recent Interview Plans</h2>
+                    <ul className='reports-list'>
+                        {reports.map(report => (
+                            <li key={report._id} className='report-item' onClick={() => navigate(`/interview/${report._id}`)}>
+                                <h3>{report.title || 'Untitled Position'}</h3>
+                                <p className='report-meta'>Generated on {new Date(report.createdAt).toLocaleDateString()}</p>
+                                <p className={`match-score ${report.matchScore >= 80 ? 'score--high' : report.matchScore >= 60 ? 'score--mid' : 'score--low'}`}>Match Score: {report.matchScore}%</p>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )}
 
             {/* Page Footer */}
             <footer className='page-footer'>
