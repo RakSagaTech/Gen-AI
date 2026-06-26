@@ -1,7 +1,7 @@
 
 import {useContext} from 'react'
 import {getAllInterviewReports, getInterviewReportById, generateInterviewReport} from '../services/interview.api'
-import {InterviewContext} from '../interview.context'
+import {InterviewContext} from '../context/interview.context'
 
 
 export const useInterview = () =>{
@@ -15,38 +15,44 @@ export const useInterview = () =>{
 
   const generateReport = async ({jobDescription, selfDescription, resumeFile}) =>{
     setLoading(true)
+    let response = null
     try{
-      const response = await generateInterviewReport({jobDescription, selfDescription, resumeFile})
+      response = await generateInterviewReport({jobDescription, selfDescription, resumeFile})
       setReport(response.interviewReport)
     }catch(err){
       console.error("Error generating interview report:", err)
     }finally{
       setLoading(false)
     }
+    return response.interviewReport
   }
 
   const getReportById = async (interviewId) =>{
     setLoading(true)
+    let response = null
     try{
-      const response = await getInterviewReportById(interviewId)
+      response = await getInterviewReportById(interviewId)
       setReport(response.interviewReport)
     }catch(err){
       console.error("Error generating interview report:", err)
     }finally{
       setLoading(false)
     }
+    return response.interviewReport
   }
 
   const getReports = async () =>{
     setLoading(true)
+    let response = null
     try{
-      const response = await getAllInterviewReports()
-      setReports(response.interviewReport)
+      response = await getAllInterviewReports()
+      setReports(response.interviewReports)
     }catch(err){
       console.error("Error generating interview report:", err)
     }finally{
       setLoading(false)
     }
+    return response.interviewReports
   }
 
   return {loading, report, reports, generateReport, getReportById, getReports}
