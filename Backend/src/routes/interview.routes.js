@@ -13,4 +13,12 @@ const upload  = require('../middlewares/file.middleware')
 interviewRouter.post("/", authMiddleware.authUser, upload.single("resume"), interviewController.generateInterviewReportController)
 
 
+/**
+ * @route GET /api/interview/report/:interviewId
+ * @desc get interview report by interviewId
+ * @access Private
+ */
+interviewRouter.get("/report/:interviewId", authMiddleware.authUser, interviewController.getInterviewReportByIdController)
+
+
 module.exports = interviewRouter
