@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect} from 'react'
+import {useParams} from 'react-router'
+import { useInterview } from '../hook/useInterview'
 import '../style/interview.scss'
-import { useInterview } from '../hooks/useInterview.js'
-import {useParams } from 'react-router'
 
 
 
@@ -59,9 +59,15 @@ const RoadMapDay = ({ day }) => (
 // ── Main Component ────────────────────────────────────────────────────────────
 const Interview = () => {
     const [ activeNav, setActiveNav ] = useState('technical')
-    const { report, loading, getResumePdf } = useInterview()
+    const { report, loading, getResumePdf, getReportById} = useInterview()
     const { interviewId } = useParams()
 
+
+    useEffect(() => {
+        if (interviewId) {
+            getReportById(interviewId)
+        }
+    }, [ interviewId, getReportById])
 
 
     if (loading || !report) {
