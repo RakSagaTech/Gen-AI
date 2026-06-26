@@ -13,7 +13,7 @@ async function generateInterviewReportController(req, res){
       })
     }
 
-  const resumeData = await (new pdfParse.pdfParse(Uin8rray.from(req.file.buffer))).getText()
+  const resumeData = await (new pdfParse.PDFParse(Uin8rray.from(req.file.buffer))).getText()
   const resumeContent = resumeData
 
   const {selfDescription, jobDescription} = req.body
